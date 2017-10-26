@@ -5,7 +5,7 @@ package game.dice;
  */
 public abstract class Die {
     public enum Roll {
-        SHOT, RUN, BRAIN
+        SHOT, RUNNER, BRAIN
     }
 
     protected int getRoll()
@@ -14,4 +14,5 @@ public abstract class Die {
     }
 
     public abstract Roll roll();
+    public abstract String name();
 }
