@@ -19,5 +19,6 @@ public class GreenDie extends Die {
     public String name()
     {
         return "Green Die";
+
     }
 }

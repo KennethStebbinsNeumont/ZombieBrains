@@ -3,7 +3,8 @@ package game.dice;
 /**
  * @author Kenneth Stebbins - kstebbins@student.neumont.edu
  */
-public class YellowDie extends Die{
+public class YellowDie extends Die
+{
   public Roll roll()
     {
         int roll = getRoll();
