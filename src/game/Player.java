@@ -10,8 +10,8 @@ public class Player{
 
     String name;
 
-    public Player(String _){
-      name = _;
+    public Player(String _name){
+      name = _name;
     }
 
     public String name(){
