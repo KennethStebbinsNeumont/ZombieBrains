@@ -3,6 +3,7 @@ package game;
 import game.dice.Die;
 import game.dice.GreenDie;
 import game.dice.RedDie;
+import game.dice.YellowDie;
 
 /**
  * @author Kenneth Stebbins - kstebbins@student.neumont.edu
@@ -24,13 +25,13 @@ private static double randomNum = Math.random() * 100;
         randomNum = Math.random() * 100;
     }
 
-    public static String decideColor (int randomNum) {
+    public static Die decideColor (int randomNum) {
         if (randomNum <= 46) {
-            return "green";
+            return new GreenDie();
         } else if (randomNum <= 77) {
-            return "yellow";
+            return new YellowDie();
         } else {
-            return "red";
+            return new RedDie();
         }
     }
 }
