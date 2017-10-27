@@ -4,7 +4,8 @@ package game;
  * @author Kenneth Stebbins - kstebbins@student.neumont.edu
  */
 public class ZombieBrains {
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         startGame();
     }
 
