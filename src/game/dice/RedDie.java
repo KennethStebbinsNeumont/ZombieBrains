@@ -5,16 +5,21 @@ package game.dice;
  */
 public class RedDie extends Die
 {
-   public Roll roll()
+    private Roll roll;
+
+    public Roll roll()
     {
-        int roll = getRoll();
-        if(roll <= 1) {
-            return Roll.BRAIN;
-        }else if(roll <= 3){
-            return Roll.RUNNER;
-        }else {
-            return Roll.SHOT;
+        if(roll == null) {
+            int r = getRoll();
+            if (r <= 1) {
+                return Roll.BRAIN;
+            } else if (r <= 3) {
+                return Roll.RUNNER;
+            } else {
+                return Roll.SHOT;
+            }
         }
+        return roll;
     }
 
     public String name() {return  "Red Die";}
