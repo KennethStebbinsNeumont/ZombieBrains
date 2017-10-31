@@ -38,6 +38,23 @@ public class ZombieBrains {
             gameLoop: // This loop is for the current game
             while(true) {
                 for(int i = 0; i < players.length; i++) {
+                    Die[] dice = new Die[3];
+                    for (int j = 0; j < dice.length; j++) {
+                        dice[i] = Cup.decideColor(Cup.getRandomNum());
+                        Cup.newRandomNum();
+                    }
+                    printDisplay(dice, i, brains[i], currentBrains);
+
+                    int BrainHolder = 0;
+                    int ShotCounter = 0;
+                     for (int j = 0; j < dice.length; j++){
+                         dice[i].roll();
+                         if (dice[i].roll().equals(Die.Roll.BRAIN)){
+                             
+                         }
+
+                     }
+
                 /*
                  * Store the number of brains temporarily.
                  * Ask if they want to roll again or leave.
@@ -49,12 +66,7 @@ public class ZombieBrains {
                  * break roundLoop;
                  */
 
-                    Die[] dice = new Die[3];
-                    for (int j = 0; j < dice.length; j++) {
-                        dice[i] = Cup.decideColor(Cup.getRandomNum());
-                        Cup.newRandomNum();
-                    }
-                    printDisplay(dice, i, brains[i], currentBrains);
+
                 }
 
                 /*
