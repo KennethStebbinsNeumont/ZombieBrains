@@ -17,8 +17,8 @@ public class Cup {
 //    The method should return one Die instance each time it is called. Also, the method should be static (why?).
 private static double randomNum = Math.random() * 100;
 
-    public static double getRandomNum() {
-        return randomNum;
+    public static int getRandomNum() {
+        return (int)randomNum;
     }
 
     public static void newRandomNum() {
