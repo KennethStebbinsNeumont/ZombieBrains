@@ -38,24 +38,46 @@ public class ZombieBrains {
             gameLoop: // This loop is for the current game
             while(true) {
                 for(int i = 0; i < players.length; i++) {
-                    Die[] dice = new Die[3];
-                    for (int j = 0; j < dice.length; j++) {
-                        dice[i] = Cup.decideColor(Cup.getRandomNum());
-                        Cup.newRandomNum();
-                    }
-                    printDisplay(dice, i, brains[i], currentBrains);
-
                     int BrainHolder = 0;
                     int ShotCounter = 0;
-                     for (int j = 0; j < dice.length; j++) {
-                         dice[i].roll();
-                         if (dice[i].roll().equals(Die.Roll.BRAIN)) {
-                             BrainHolder++;
-                         }
-                         if (dice[i].roll().equals(Die.Roll.SHOT)) {
-                             ShotCounter++;
-                         }
-                     }
+                    rollLoop:
+                    do {
+                        Die[] dice = new Die[3];
+                        for (int j = 0; j < dice.length; j++) {
+                            dice[i] = Cup.decideColor(Cup.getRandomNum());
+                            Cup.newRandomNum();
+                        }
+
+                        for (int j = 0; j < dice.length; j++) {
+                            dice[i].roll();
+                            if (dice[i].roll().equals(Die.Roll.BRAIN)) {
+                                BrainHolder++;
+                            }
+                            if (dice[i].roll().equals(Die.Roll.SHOT)) {
+                                ShotCounter++;
+                            }
+                        }
+
+                        printDisplay(dice, i, brains[i], currentBrains);
+
+                        if (ShotCounter >= 3) {
+                            System.out.println("You are dead!");
+                            BrainHolder = 0;
+                            break rollLoop;
+                        } else if (BrainHolder >= 13) {
+                            System.out.println("You have won!");
+                        }
+                        while(true) {
+                            System.out.print("Do you want to roll again? [Y/N]");
+                            String response = scanner.nextLine();
+                            if(response.equalsIgnoreCase("n")) {
+                                break rollLoop;
+                            } else if(!response.equalsIgnoreCase("y")) {
+                                System.out.println("Sorry! That response wasn't recognized!");
+                            }
+                        }
+                    } while(true);
+                    brains[i] += BrainHolder;
                 /*
                  * Store the number of brains temporarily.
                  * Ask if they want to roll again or leave.
@@ -68,12 +90,6 @@ public class ZombieBrains {
                  */
 
 
-                }int ShotCounter = 0;
-                int BrainHolder = 0;
-                if(ShotCounter >= 3){
-                        System.out.println("You are dead!");
-                    }if(BrainHolder>= 13){
-                    System.out.println("You have won!");
                 }
 
                 /*
@@ -104,10 +120,11 @@ public class ZombieBrains {
         System.out.println(dice[0].name() + " rolled " + dice[0].roll());
         System.out.println(dice[1].name() + " rolled " + dice[1].roll());
         System.out.println(dice[2].name() + " rolled " + dice[2].roll());
-        if (playerIndex == 0) {
-            System.out.println((players[playerIndex + 1]) + " has " + brains[playerIndex + 1] + " brains.");
-        } if (playerIndex == 1) {
-            System.out.println((players[playerIndex - 1]) + " has " + brains[playerIndex - 1] + " brains.");
+        Player leadingPlayer = players[playerIndex];
+        int greatestBrains = brains[playerIndex];
+        for(int i = 0; i < brains.length; i++) {
+            if(brains[i] >= greatestBrains) leadingPlayer = players[i];
         }
+        System.out.println(leadingPlayer + " is in the lead with " + greatestBrains + " brains.");
     }
 }
