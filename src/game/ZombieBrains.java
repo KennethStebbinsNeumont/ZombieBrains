@@ -47,14 +47,15 @@ public class ZombieBrains {
 
                     int BrainHolder = 0;
                     int ShotCounter = 0;
-                     for (int j = 0; j < dice.length; j++){
+                     for (int j = 0; j < dice.length; j++) {
                          dice[i].roll();
-                         if (dice[i].roll().equals(Die.Roll.BRAIN)){
-                             
+                         if (dice[i].roll().equals(Die.Roll.BRAIN)) {
+                             BrainHolder++;
                          }
-
+                         if (dice[i].roll().equals(Die.Roll.SHOT)) {
+                             ShotCounter++;
+                         }
                      }
-
                 /*
                  * Store the number of brains temporarily.
                  * Ask if they want to roll again or leave.
@@ -67,6 +68,12 @@ public class ZombieBrains {
                  */
 
 
+                }int ShotCounter = 0;
+                int BrainHolder = 0;
+                if(ShotCounter >= 3){
+                        System.out.println("You are dead!");
+                    }if(BrainHolder>= 13){
+                    System.out.println("You have won!");
                 }
 
                 /*
