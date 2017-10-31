@@ -8,8 +8,8 @@ import java.util.Scanner;
  * @author Kenneth Stebbins - kstebbins@student.neumont.edu
  */
 public class ZombieBrains {
-    Player[] players = new Player[2];
-    int[] brains = new int[2];
+    Player[] players;
+    int[] brains;
     Cup cup = new Cup();
 
     public static void main(String[] args)
@@ -25,23 +25,20 @@ public class ZombieBrains {
     public void startGame()
     {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("What's player 1's name? ");
-        players[0] = new Player(scanner.nextLine());
-        System.out.print("What's player 2's name? ");
-        players[1] = new Player(scanner.nextLine());
+        players = new Player[2];
+        brains = new int[players.length];
+        for(int i = 0; i < players.length; i++) {
+            System.out.print("What's player " + i + "'s name? ");
+            players[i] = new Player(scanner.nextLine());
+        }
 
-        int currentPlayer = 0;
         int currentBrains = 0;
         restartLoop: // This loop allows for the whole game to be replayed
         while(true) {
             gameLoop: // This loop is for the current game
-            // Change which player has their "turn"
             while(true) {
-                roundLoop:
-                while(true) {
-
+                for(int i = 0; i < players.length; i++) {
                 /*
-
                  * Store the number of brains temporarily.
                  * Ask if they want to roll again or leave.
                  * Exit this loop automatically if they are "dead" or
@@ -52,12 +49,12 @@ public class ZombieBrains {
                  * break roundLoop;
                  */
 
-                Die[] dice = new Die[3];
-                    for (int i = 0; i < dice.length; i++) {
+                    Die[] dice = new Die[3];
+                    for (int j = 0; j < dice.length; j++) {
                         dice[i] = Cup.decideColor(Cup.getRandomNum());
                         Cup.newRandomNum();
                     }
-                    printDisplay(dice, currentPlayer, brains[currentPlayer], currentBrains);
+                    printDisplay(dice, i, brains[i], currentBrains);
                 }
 
                 /*
@@ -65,7 +62,7 @@ public class ZombieBrains {
                  * in the right place (i.e. player 0 gets brains index 0).
                  * Check to see if the opponent has >= 13 brains). If they do,
                  * check to see if the current player has more brains. If the
-                 * current player has more brains, they win. Otherise, the opponent
+                 * current player has more brains, they win. Otherwise, the opponent
                  * wins.
                  * Break this loop with:
                  * break gameLoop:
