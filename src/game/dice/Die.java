@@ -5,7 +5,20 @@ package game.dice;
  */
 public abstract class Die {
     public enum Roll {
-        SHOT, RUNNER, BRAIN
+        SHOT ("Shot"), RUNNER ("Runner"), BRAIN ("Brain!");
+
+        private final String name;
+
+        Roll(String n)
+        {
+            name = n;
+        }
+
+        @Override
+        public String toString()
+        {
+            return name;
+        }
     }
 
     protected int getRoll()
