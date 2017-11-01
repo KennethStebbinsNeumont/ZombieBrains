@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class ZombieBrains {
     Player[] players;
-    int[] brains;
+//    int[] brains;
     Cup cup = new Cup();
 
     public static void main(String[] args)
@@ -26,58 +26,65 @@ public class ZombieBrains {
     {
         Scanner scanner = new Scanner(System.in);
         players = new Player[2];
-        brains = new int[players.length];
+//        brains = new int[players.length];
         for(int i = 0; i < players.length; i++) {
-            System.out.print("What's player " + i + "'s name? ");
+            System.out.print("What's player " + (i + 1) + "'s name? ");
             players[i] = new Player(scanner.nextLine());
         }
 
         int currentBrains = 0;
         restartLoop: // This loop allows for the whole game to be replayed
         while(true) {
-            gameLoop: // This loop is for the current game
-            while(true) {
-                for(int i = 0; i < players.length; i++) {
-                    int BrainHolder = 0;
-                    int ShotCounter = 0;
+            Player winningPlayer = null;
+            gameLoop:
+            // This loop is for the current game
+            while (true) {
+                for (Player player : players) {
+                    if (player.brains() >= 13) {
+                        Player winner = player;
+                        for (Player p : players) {
+                            if (p.brains() > winner.brains()) winner = p;
+                        }
+                        winningPlayer = winner;
+                        break gameLoop;
+                    }
+                    int brains = 0;
+                    int shots = 0;
                     rollLoop:
                     do {
-                        Die[] dice = new Die[3];
-                        for (int j = 0; j < dice.length; j++) {
-                            dice[i] = Cup.decideColor(Cup.getRandomNum());
-                            Cup.newRandomNum();
-                        }
-
-                        for (int j = 0; j < dice.length; j++) {
-                            dice[i].roll();
-                            if (dice[i].roll().equals(Die.Roll.BRAIN)) {
-                                BrainHolder++;
-                            }
-                            if (dice[i].roll().equals(Die.Roll.SHOT)) {
-                                ShotCounter++;
+                        Die[] dice = Cup.spawnDice();
+                        for (Die die : dice) {
+                            System.out.println(die + " rolled a " + die.roll());
+                            if (die.roll() == Die.Roll.BRAIN) {
+                                brains++;
+                            } else if (die.roll() == Die.Roll.SHOT) {
+                                shots++;
                             }
                         }
 
-                        printDisplay(dice, i, brains[i], currentBrains);
+                        System.out.println("It's " + player + "'s turn!");
+                        printDisplay(dice, player, brains, shots);
 
-                        if (ShotCounter >= 3) {
+                        if (shots >= 3) {
                             System.out.println("You are dead!");
-                            BrainHolder = 0;
+                            brains = 0;
                             break rollLoop;
-                        } else if (BrainHolder >= 13) {
+                        } else if (brains >= 13) {
                             System.out.println("You have won!");
                         }
                         while(true) {
-                            System.out.print("Do you want to roll again? [Y/N]");
+                            System.out.print("Do you want to roll again? [Y/N]: ");
                             String response = scanner.nextLine();
-                            if(response.equalsIgnoreCase("n")) {
+                            if (response.equalsIgnoreCase("n")) {
                                 break rollLoop;
-                            } else if(!response.equalsIgnoreCase("y")) {
+                            } else if (response.equalsIgnoreCase("y")) {
+                                break;
+                            } else {
                                 System.out.println("Sorry! That response wasn't recognized!");
                             }
                         }
                     } while(true);
-                    brains[i] += BrainHolder;
+                    player.setBrains(player.brains() + brains);
                 /*
                  * Store the number of brains temporarily.
                  * Ask if they want to roll again or leave.
@@ -106,25 +113,43 @@ public class ZombieBrains {
             /*
              * Ask if they want to play again
              */
+            System.out.println("Congratulations, " + winningPlayer + ", you've won!");
+            while (true) {
+                System.out.print("Do you want to play again? [Y/N]: ");
+                String response = scanner.nextLine();
+                if (response.equalsIgnoreCase("n")) {
+                    break restartLoop;
+                } else if (!response.equalsIgnoreCase("y")) {
+                    System.out.println("Sorry! That response wasn't recognized!");
+                }
+            }
         }
     }
 
-    public void printDisplay(Die[] dice, int playerIndex, int brainsObtained, int currentBrains)
+    public void printDisplay(Die[] dice, Player currentPlayer, int currentBrains, int currentShots)
     {
         /*
          * A roll is equal to one of these three:
          * Die.Roll.SHOT, Die.Roll.RUNNER, Die.Roll.BRAIN
          */
-        System.out.println(players[playerIndex] + " has " + brainsObtained + " brains.");
-        System.out.println("You have earned " + currentBrains + " brains this round.");
-        System.out.println(dice[0].name() + " rolled " + dice[0].roll());
-        System.out.println(dice[1].name() + " rolled " + dice[1].roll());
-        System.out.println(dice[2].name() + " rolled " + dice[2].roll());
-        Player leadingPlayer = players[playerIndex];
-        int greatestBrains = brains[playerIndex];
-        for(int i = 0; i < brains.length; i++) {
-            if(brains[i] >= greatestBrains) leadingPlayer = players[i];
+        System.out.println(currentPlayer + " has " + currentPlayer.brains() + " total brains.");
+        for (Die die: dice) {
+            System.out.print(die.name() + " rolled " + die.roll() + "    ");
         }
-        System.out.println(leadingPlayer + " is in the lead with " + greatestBrains + " brains.");
+        System.out.println();
+        System.out.println(currentPlayer + " has earned " + currentBrains + " brains and has been shot " + currentShots + " time(s) this round.");
+        Player leadingPlayer = currentPlayer;
+        Player runnerUp = currentPlayer;
+        for(Player player : players) {
+            if(player.brains() >= leadingPlayer.brains()) {
+                runnerUp = leadingPlayer;
+                leadingPlayer = player;
+            }
+        }
+        if(leadingPlayer != currentPlayer) {
+            System.out.println(leadingPlayer + " is in the lead with " + leadingPlayer.brains() + " brains.");
+        } else {
+            System.out.println(runnerUp + " is right behind you with " + runnerUp.brains() + " brains.");
+        }
     }
 }
