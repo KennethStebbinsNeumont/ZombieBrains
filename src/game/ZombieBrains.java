@@ -2,14 +2,14 @@ package game;
 
 import game.dice.Die;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * @author Kenneth Stebbins - kstebbins@student.neumont.edu
  */
 public class ZombieBrains {
-    Player[] players;
-//    int[] brains;
+    ArrayList<Player> players = new ArrayList<Player>();
     Cup cup = new Cup();
 
     public static void main(String[] args)

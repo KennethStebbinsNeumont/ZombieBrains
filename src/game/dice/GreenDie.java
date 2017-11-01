@@ -6,17 +6,23 @@ package game.dice;
 public class GreenDie extends Die {
     private Roll roll;
 
-    public Roll roll()
+    public Roll previousRoll()
     {
         if(roll == null) {
-            int r = getRoll();
-            if (r <= 1) {
-                roll = Roll.SHOT;
-            } else if (r <= 3) {
-                roll = Roll.RUNNER;
-            } else {
-                roll = Roll.BRAIN;
-            }
+            reroll();
+        }
+        return roll;
+    }
+
+    public Roll reroll()
+    {
+        int r = getRoll();
+        if (r <= 1) {
+            roll = Roll.SHOT;
+        } else if (r <= 3) {
+            roll = Roll.RUNNER;
+        } else {
+            roll = Roll.BRAIN;
         }
         return roll;
     }

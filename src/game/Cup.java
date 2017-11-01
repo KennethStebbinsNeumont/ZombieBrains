@@ -5,6 +5,9 @@ import game.dice.GreenDie;
 import game.dice.RedDie;
 import game.dice.YellowDie;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * @author Kenneth Stebbins - kstebbins@student.neumont.edu
  */
@@ -16,8 +19,17 @@ public class Cup {
 //    Model this Cup class as though it is magical, capable of producing infinite dice.
 //    The method should return one Die instance each time it is called. Also, the method should be static (why?).
 
+    private ArrayList<Die> dice, brains, shots = new ArrayList<>();
+
+    public Cup()
+    {
+        dice.addAll(Arrays.asList(new GreenDie(), new GreenDie(), new GreenDie(), new GreenDie(),
+                new GreenDie(), new GreenDie(), new YellowDie(), new YellowDie(), new YellowDie(), new YellowDie(),
+                new RedDie(), new RedDie(), new RedDie()));
+    }
+
     public static Die[] spawnDice() {
-        int randomNum = (int)(Math.random() * 100);
+        int randomNum = (int)(Math.random() * 13);
         Die[] result = new Die[3];
         for(int i = 0; i < result.length; i++) {
             if (randomNum <= 46) {
@@ -30,4 +42,14 @@ public class Cup {
         }
         return result;
     }
+
+    public Die.Roll[] roll()
+    {
+        Die.Roll[] result = new Die.Roll[3];
+        for(int i = 0; i < result.length; i++) {
+            Die die = dice.get((int)(Math.random() * dice.size()));
+            if(die.roll().equals())
+        }
+    }
+
 }
