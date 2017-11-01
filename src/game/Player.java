@@ -8,7 +8,8 @@ import java.util.Scanner;
  */
 public class Player{
 
-    String name;
+    private final String name;
+    private int brains = 0;
 
     public Player(String _name){
       name = _name;
@@ -17,6 +18,13 @@ public class Player{
     public String name(){
         return name;
     }
+
+    public void setBrains(int _brains)
+    {
+        brains = _brains;
+    }
+
+    public int brains() { return brains; }
 
     @Override
     public String toString() { return name(); }

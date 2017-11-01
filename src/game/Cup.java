@@ -15,23 +15,19 @@ public class Cup {
 //    See the Game Rules section for the percentage of each color.
 //    Model this Cup class as though it is magical, capable of producing infinite dice.
 //    The method should return one Die instance each time it is called. Also, the method should be static (why?).
-private static double randomNum = Math.random() * 100;
 
-    public static int getRandomNum() {
-        return (int)randomNum;
-    }
-
-    public static void newRandomNum() {
-        randomNum = Math.random() * 100;
-    }
-
-    public static Die decideColor (int randomNum) {
-        if (randomNum <= 46) {
-            return new GreenDie();
-        } else if (randomNum <= 77) {
-            return new YellowDie();
-        } else {
-            return new RedDie();
+    public static Die[] spawnDice() {
+        int randomNum = (int)(Math.random() * 100);
+        Die[] result = new Die[3];
+        for(int i = 0; i < result.length; i++) {
+            if (randomNum <= 46) {
+                result[i] = new GreenDie();
+            } else if (randomNum <= 77) {
+                result[i] = new YellowDie();
+            } else {
+                result[i] = new RedDie();
+            }
         }
+        return result;
     }
 }
