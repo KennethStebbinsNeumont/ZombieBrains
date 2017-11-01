@@ -78,18 +78,6 @@ public class ZombieBrains {
                         }
                     } while(true);
                     brains[i] += BrainHolder;
-                /*
-                 * Store the number of brains temporarily.
-                 * Ask if they want to roll again or leave.
-                 * Exit this loop automatically if they are "dead" or
-                 * if they have greater than or equal to 13 brains.
-                 * If they die, reset the temporary brains amount
-                 * to 0.
-                 * You can exit this loop by using:
-                 * break roundLoop;
-                 */
-
-
                 }
 
                 /*
