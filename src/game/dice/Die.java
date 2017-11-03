@@ -27,5 +27,11 @@ public abstract class Die {
     }
 
     public abstract Roll roll();
+    public abstract Roll reroll();
     public abstract String name();
+    @Override
+    public String toString()
+    {
+        return name();
+    }
 }
