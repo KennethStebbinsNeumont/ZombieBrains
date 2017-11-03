@@ -90,6 +90,22 @@ public class ZombieBrains {
                  * Break this loop with:
                  * break gameLoop:
                  */
+                if (i == 0 && brains[1] >= 13){
+                 if (brains[0] > brains[1]){
+                     System.out.println("Player " + players[0] + " has won!!!!?!!?!!!!?!");
+                 }
+                    else{
+                     System.out.println("Player " + players[1] + " has won!!!!?!!?!!!!?!");   
+                    }
+                }
+                else if (i == 1 && brains[0] <= 13){
+                  if (brains[0] > brains[1]){
+                     System.out.println("Player " + players[0] + " has won!!!!?!!?!!!!?!");
+                 }
+                    else{
+                     System.out.println("Player " + players[1] + " has won!!!!?!!?!!!!?!");   
+                    }
+                }
             }
             /*
              * Ask if they want to play again
