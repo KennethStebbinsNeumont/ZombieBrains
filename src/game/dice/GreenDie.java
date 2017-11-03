@@ -3,16 +3,9 @@ package game.dice;
 /**
  * @author Kenneth Stebbins - kstebbins@student.neumont.edu
  */
-public class GreenDie extends Die {
+public class GreenDie extends Die
+{
     private Roll roll;
-
-    public Roll previousRoll()
-    {
-        if(roll == null) {
-            reroll();
-        }
-        return roll;
-    }
 
     public Roll reroll()
     {
@@ -27,9 +20,14 @@ public class GreenDie extends Die {
         return roll;
     }
 
+    public Roll roll()
+    {
+        if(roll == null) return reroll();
+        return roll;
+    }
+
     public String name()
     {
         return "Green Die";
-
     }
 }

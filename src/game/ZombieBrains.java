@@ -3,13 +3,14 @@ package game;
 import game.dice.Die;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
  * @author Kenneth Stebbins - kstebbins@student.neumont.edu
  */
 public class ZombieBrains {
-    ArrayList<Player> players = new ArrayList<Player>();
+    ArrayList<Player> players = new ArrayList<Player>(0);
     Cup cup = new Cup();
 
     public static void main(String[] args)
@@ -25,14 +26,17 @@ public class ZombieBrains {
     public void startGame()
     {
         Scanner scanner = new Scanner(System.in);
-        players = new Player[2];
 //        brains = new int[players.length];
-        for(int i = 0; i < players.length; i++) {
-            System.out.print("What's player " + (i + 1) + "'s name? ");
-            players[i] = new Player(scanner.nextLine());
+        System.out.println("Please enter the names of every player. When you're done, just press ENTER to play the game.");
+        while(true) {
+            System.out.print("What's player " + (players.size() + 1) + "'s name? ");
+            String response = scanner.nextLine();
+            if(response.equalsIgnoreCase("")) break;
+            players.add(new Player(response));
         }
 
         int currentBrains = 0;
+        Cup cup = new Cup();
         restartLoop: // This loop allows for the whole game to be replayed
         while(true) {
             Player winningPlayer = null;
@@ -50,23 +54,23 @@ public class ZombieBrains {
                     }
                     int brains = 0;
                     int shots = 0;
+                    cup.refillCup();
                     rollLoop:
                     do {
-                        Die[] dice = Cup.spawnDice();
+                        System.out.println("It's " + player + "'s turn!");
+                        Die[] dice = cup.roll();
                         for (Die die : dice) {
-                            System.out.println(die + " rolled a " + die.roll());
+                            System.out.println("You got a " + die.roll() + " from a " + die);
                             if (die.roll() == Die.Roll.BRAIN) {
                                 brains++;
                             } else if (die.roll() == Die.Roll.SHOT) {
                                 shots++;
                             }
                         }
-
-                        System.out.println("It's " + player + "'s turn!");
-                        printDisplay(dice, player, brains, shots);
+                        printDisplay(player, brains, shots);
 
                         if (shots >= 3) {
-                            System.out.println("You are dead!");
+                            System.out.println("You are dead!\n");
                             brains = 0;
                             break rollLoop;
                         } else if (brains >= 13) {
@@ -76,8 +80,10 @@ public class ZombieBrains {
                             System.out.print("Do you want to roll again? [Y/N]: ");
                             String response = scanner.nextLine();
                             if (response.equalsIgnoreCase("n")) {
+                                System.out.println("\n"); // Add an extra empty line
                                 break rollLoop;
                             } else if (response.equalsIgnoreCase("y")) {
+                                System.out.println();
                                 break;
                             } else {
                                 System.out.println("Sorry! That response wasn't recognized!");
@@ -113,7 +119,14 @@ public class ZombieBrains {
             /*
              * Ask if they want to play again
              */
-            System.out.println("Congratulations, " + winningPlayer + ", you've won!");
+            System.out.println("\nCongratulations, " + winningPlayer + ", you've won with " + winningPlayer.brains() +
+                    " brains!");
+            players.sort(Comparator.comparingInt(Player::brains));
+            System.out.println("Here's who you beat:");
+            for(Player player : (Player[])players.toArray()) {
+                if(players.indexOf(player) > 0) System.out.print(", ");
+                System.out.print(player + " [" + player.brains() + "]");
+            }
             while (true) {
                 System.out.print("Do you want to play again? [Y/N]: ");
                 String response = scanner.nextLine();
@@ -122,32 +135,38 @@ public class ZombieBrains {
                 } else if (!response.equalsIgnoreCase("y")) {
                     System.out.println("Sorry! That response wasn't recognized!");
                 }
+                System.out.println("\n\n\n");
             }
         }
     }
 
-    public void printDisplay(Die[] dice, Player currentPlayer, int currentBrains, int currentShots)
+    private void printDisplay(Player currentPlayer, int currentBrains, int currentShots)
     {
         /*
          * A roll is equal to one of these three:
          * Die.Roll.SHOT, Die.Roll.RUNNER, Die.Roll.BRAIN
          */
-        System.out.println(currentPlayer + " has " + currentPlayer.brains() + " total brains.");
-        for (Die die: dice) {
-            System.out.print(die.name() + " rolled " + die.roll() + "    ");
-        }
-        System.out.println();
-        System.out.println(currentPlayer + " has earned " + currentBrains + " brains and has been shot " + currentShots + " time(s) this round.");
+        System.out.println("\n" + currentPlayer + " has " + currentPlayer.brains() + " total brains.");
+        System.out.println(currentPlayer + " has earned " + currentBrains + " brains and has been shot " +
+                currentShots + " time(s) this round.");
+    }
+
+    private void printDisplay(Player currentPlayer)
+    {
         Player leadingPlayer = currentPlayer;
         Player runnerUp = currentPlayer;
         for(Player player : players) {
             if(player.brains() >= leadingPlayer.brains()) {
-                runnerUp = leadingPlayer;
                 leadingPlayer = player;
+            } else {
+                runnerUp = player;
             }
         }
-        if(leadingPlayer != currentPlayer) {
+        if(leadingPlayer.brains() > currentPlayer.brains()) {
             System.out.println(leadingPlayer + " is in the lead with " + leadingPlayer.brains() + " brains.");
+        } else if(leadingPlayer.brains() == currentPlayer.brains()) {
+            System.out.println("You're currently neck and neck with " + leadingPlayer + " with " +
+                    leadingPlayer.brains() + " brains.");
         } else {
             System.out.println(runnerUp + " is right behind you with " + runnerUp.brains() + " brains.");
         }

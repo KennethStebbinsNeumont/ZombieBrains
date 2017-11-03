@@ -7,18 +7,22 @@ public class RedDie extends Die
 {
     private Roll roll;
 
+    public Roll reroll()
+    {
+        int r = getRoll();
+        if (r <= 1) {
+            roll = Roll.BRAIN;
+        } else if (r <= 3) {
+            roll = Roll.RUNNER;
+        } else {
+            roll = Roll.SHOT;
+        }
+        return roll;
+    }
+
     public Roll roll()
     {
-        if(roll == null) {
-            int r = getRoll();
-            if (r <= 1) {
-                return Roll.BRAIN;
-            } else if (r <= 3) {
-                return Roll.RUNNER;
-            } else {
-                return Roll.SHOT;
-            }
-        }
+        if(roll == null) return reroll();
         return roll;
     }
 
