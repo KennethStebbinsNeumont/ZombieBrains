@@ -6,7 +6,7 @@ import game.dice.RedDie;
 import game.dice.YellowDie;
 
 /**
- * @author Kenneth Stebbins - kstebbins@student.neumont.edu
+ * @author Ben Smmith and Eion Vaughn
  */
 public class Cup {
 //    private Die[] dice = new Die[]{new RedDie(), new RedDie(), new RedDie(), new GreenDie(), new GreenDie(), new GreenDie()}

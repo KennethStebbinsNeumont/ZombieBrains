@@ -1,7 +1,7 @@
 package game.dice;
 
 /**
- * @author Kenneth Stebbins - kstebbins@student.neumont.edu
+ * @author Byron Slavey and Kenneth Stebbins
  */
 public class RedDie extends Die
 {

@@ -4,7 +4,7 @@ package game;
 import java.util.Scanner;
 
 /**
- * @author Kenneth Stebbins - kstebbins@student.neumont.edu; manipulated/collaborated by Galen Schatzman - gschatzman@student.neumont.edu
+ * @author Galen Schatzman and Kenneth Stebbins
  */
 public class Player{
 

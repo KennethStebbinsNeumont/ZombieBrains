@@ -5,7 +5,7 @@ import game.dice.Die;
 import java.util.Scanner;
 
 /**
- * @author Kenneth Stebbins - kstebbins@student.neumont.edu
+ * @author Kenneth Stebbins, Eion Vaughn, Galen Schatzman, Eli Torres, Ben Smith, and Byron Slavey
  */
 public class ZombieBrains {
     Player[] players;
